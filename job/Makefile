@@ -28,7 +28,8 @@ create_scheduler:
 	--location ${LOCATION} \
 	--schedule="0 0 * * *" \
 	--uri="https://${LOCATION}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${GCP_PROJECT_ID}/jobs/${JOB_NAME}:run" \
-	--http-method POST
+	--http-method POST \
+	--oauth-service-account-email=${SERVICE_ACCOUNT_EMAIL}
 
 ## Cloud SQL
 .PHONY: setup_cloudsql
@@ -59,7 +60,7 @@ set_password_cloudsql_instance:
 
 .PHONY: import_csv_to_cloudsql
 import_csv_to_cloudsql:
-	gsutil iam ch serviceAccount:${SERVICE_ACCOUNT_EMAIL}:roles/storage.objectAdmin ${DATA_BUCKET}
+	gsutil iam ch serviceAccount:${CLOUD_SQL_SERVICE_ACCOUNT_EMAIL}:roles/storage.objectAdmin ${DATA_BUCKET}
 	gcloud sql import csv ${CLOUD_SQL_INSTANCE_NAME} ${DATA_BUCKET}/videos.csv \
 	--database=${CLOUD_SQL_DATABASE_NAME} \
 	--table=${CLOUD_SQL_TABLE_NAME}

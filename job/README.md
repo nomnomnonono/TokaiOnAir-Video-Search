@@ -21,6 +21,7 @@ $ cp .env job/
 ```bash
 GCP_PROJECT_ID=your project id
 LOCATION=asia-northeast1
+SERVICE_ACCOUNT_EMAIL=service account email
 AR_REPOSITORY_NAME=artifact registory repository name
 JOB_NAME=cloud run job name
 SCHEDULER_NAME=cloud scheduler name
@@ -67,7 +68,7 @@ $ gcloud sql instances describe ${CLOUD_SQL_INSTANCE_NAME}
 ```
 フィールドの値を`.env`ファイルに追加、環境変数に反映
 ```bash
-$ SERVICE_ACCOUNT_EMAIL=service account email address
+$ CLOUD_SQL_SERVICE_ACCOUNT_EMAIL=service account email address
 ```
 Cloud SQLに動画データの反映
 ```bash
