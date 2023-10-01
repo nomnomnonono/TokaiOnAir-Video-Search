@@ -60,7 +60,7 @@ set_password_cloudsql_instance:
 
 .PHONY: import_csv_to_cloudsql
 import_csv_to_cloudsql:
-	gsutil iam ch serviceAccount:${CLOUD_SQL_SERVICE_ACCOUNT_EMAIL}:roles/storage.objectAdmin ${DATA_BUCKET}
+	gsutil iam ch serviceAccount:${SERVICE_ACCOUNT_EMAIL}:roles/storage.objectAdmin ${DATA_BUCKET}
 	gcloud sql import csv ${CLOUD_SQL_INSTANCE_NAME} ${DATA_BUCKET}/videos.csv \
 	--database=${CLOUD_SQL_DATABASE_NAME} \
 	--table=${CLOUD_SQL_TABLE_NAME}

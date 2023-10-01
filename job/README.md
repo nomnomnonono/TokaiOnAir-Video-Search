@@ -62,14 +62,6 @@ CREATE TABLE ${CLOUD_SQL_DATABASE_NAME}.${CLOUD_SQL_TABLE_NAME} (
 ```
 
 ### Upload CSV to Cloud SQL
-以下のコマンドを実行した出力から、`serviceAccountEmailAddress`フィールドを探す
-```bash
-$ gcloud sql instances describe ${CLOUD_SQL_INSTANCE_NAME}
-```
-フィールドの値を`.env`ファイルに追加、環境変数に反映
-```bash
-$ CLOUD_SQL_SERVICE_ACCOUNT_EMAIL=service account email address
-```
 Cloud SQLに動画データの反映
 ```bash
 $ make import_csv_to_cloudsql
