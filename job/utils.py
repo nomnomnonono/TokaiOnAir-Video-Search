@@ -50,7 +50,7 @@ def getVideos(youtube, video_data):
                     video_data.loc[idx, attr] = video_info["statistics"][attr]
                 else:
                     video_data.loc[idx, attr] = video_info["snippet"][attr]
-            except:
+            except Exception:
                 print(
                     f"Error: Unable to get {attr} in video#{video_data.loc[idx, 'id']}"
                 )

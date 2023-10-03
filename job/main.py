@@ -15,12 +15,12 @@ DATA_BUCKET = os.environ.get("DATA_BUCKET")
 
 
 def getconn():
-    conn =  Connector().connect(
+    conn = Connector().connect(
         f"{os.environ.get('GCP_PROJECT_ID')}:{os.environ.get('LOCATION')}:{os.environ.get('CLOUD_SQL_INSTANCE_NAME')}",
         "pymysql",
         user="root",
         password=os.environ.get("CLOUD_SQL_PASSWORD"),
-        db=os.environ.get("CLOUD_SQL_DATABASE_NAME")
+        db=os.environ.get("CLOUD_SQL_DATABASE_NAME"),
     )
     return conn
 
@@ -52,7 +52,9 @@ def main(args):
             # Insert entries into table
             for i in range(len(video_data)):
                 try:
-                    db_conn.execute(insert_stmt, parameters=video_data.iloc[i].to_dict())
+                    db_conn.execute(
+                        insert_stmt, parameters=video_data.iloc[i].to_dict()
+                    )
                     print(f"Successly inserted Video: {video_data.iloc[i]['title']}")
                 except Exception as e:
                     print("Error", e)
