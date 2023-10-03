@@ -17,4 +17,4 @@ jobs:
       - name: Install dependencies
         run: cd job && poetry install --no-interaction
       - name: Run linter
-        run: make lint
+        run: cd job && make lint
