@@ -6,6 +6,10 @@ format:
 lint:
 	poetry run pysen run lint
 
+.PHONY: test
+test:
+	poetry run pytest
+
 .PHONY: install
 install:
 	poetry install
