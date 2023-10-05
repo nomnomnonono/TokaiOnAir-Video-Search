@@ -1,4 +1,13 @@
-ATTRS = ["title", "description", "thumbnail", "publishedAt", "viewCount", "likeCount"]
+COLUMNS = [
+    "title",
+    "description",
+    "thumbnail",
+    "year",
+    "month",
+    "day",
+    "viewCount",
+    "likeCount",
+]
 
 
 def getChannelPlaylistId(youtube, channel_id):
@@ -10,13 +19,13 @@ def getChannelPlaylistId(youtube, channel_id):
     return playlist_id
 
 
-def getVideoIds(youtube, playlist_id, is_local, page_token=None):
+def getVideoIds(youtube, playlist_id, is_prod=True, page_token=None):
     items_info = (
         youtube.playlistItems()
         .list(
             part="contentDetails",
             playlistId=playlist_id,
-            maxResults=50 if is_local else 5,
+            maxResults=50 if is_prod else 5,
             pageToken=page_token,
         )
         .execute()
@@ -25,9 +34,9 @@ def getVideoIds(youtube, playlist_id, is_local, page_token=None):
         map(lambda item: item["contentDetails"]["videoId"], items_info["items"])
     )
 
-    if is_local and "nextPageToken" in items_info:
+    if is_prod and "nextPageToken" in items_info:
         video_ids.extend(
-            getVideoIds(youtube, playlist_id, is_local, items_info["nextPageToken"])
+            getVideoIds(youtube, playlist_id, is_prod, items_info["nextPageToken"])
         )
 
     return video_ids
@@ -40,7 +49,10 @@ def getVideos(youtube, video_data):
             .list(part="snippet,statistics", id=video_data.loc[idx, "id"])
             .execute()["items"][0]
         )
-        for attr in ATTRS:
+
+        date_dict = process_date(video_info["snippet"]["publishedAt"])
+
+        for attr in COLUMNS:
             try:
                 if attr == "thumbnail":
                     video_data.loc[idx, attr] = video_info["snippet"]["thumbnails"][
@@ -48,10 +60,18 @@ def getVideos(youtube, video_data):
                     ]["url"]
                 elif attr in ["viewCount", "likeCount"]:
                     video_data.loc[idx, attr] = video_info["statistics"][attr]
+                elif attr in ["year", "month", "day"]:
+                    video_data.loc[idx, attr] = date_dict[attr]
                 else:
                     video_data.loc[idx, attr] = video_info["snippet"][attr]
             except Exception:
                 print(
                     f"Error: Unable to get {attr} in video#{video_data.loc[idx, 'id']}"
                 )
+
     return video_data
+
+
+def process_date(date):
+    year, month, other = date.split("-")
+    return {"year": year, "month": month, "day": other.split("T")[0]}
