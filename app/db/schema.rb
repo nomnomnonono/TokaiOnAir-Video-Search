@@ -11,7 +11,17 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_10_05_045939) do
-# Could not dump table "videos" because of following StandardError
-#   Unknown type 'STRING' for column 'id'
+  create_table "videos", id: { type: :string, limit: 50 }, force: :cascade do |t|
+    t.text "title"
+    t.text "description"
+    t.text "thumbnail"
+    t.integer "year"
+    t.integer "month"
+    t.integer "day"
+    t.integer "viewcount"
+    t.integer "likecount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end
