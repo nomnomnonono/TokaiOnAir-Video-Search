@@ -34,8 +34,8 @@ jobs:
         run: cd job && poetry install --no-interaction
       - name: Create dot env file
         run: |
-          touch .env
-          echo "FOO=${{ secrets.API_KEY }}" >> .env
-          echo "FOO=${{ secrets.CHANNEL_ID}}
+          touch job/.env
+          echo "API_KEY=${{ secrets.API_KEY }}" >> job/.env
+          echo "CHANNEL_ID=${{ secrets.CHANNEL_ID}}" >> job/.env
       - name: Run tests
         run: cd job && make test
