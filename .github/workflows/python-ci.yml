@@ -1,6 +1,8 @@
 name: python-ci
 on:
   pull_request:
+    paths:
+      - "job/**"
 jobs:
   linter:
     runs-on: ubuntu-latest
