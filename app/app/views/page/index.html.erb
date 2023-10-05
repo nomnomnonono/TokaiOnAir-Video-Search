@@ -1,0 +1,18 @@
+<%= render "header" %>
+
+<div class="container body">
+  <p class="h1 title">Latest Posts</p>
+  <br>
+
+  <div class="row">
+    <% i = 0 %>
+    <% @videos.each do |video| %>
+      <% if i < 5 then %>
+        <%= render partial: "video", locals: { video: video } %>
+        <% i += 1%>
+      <% else %>
+        <% break %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
