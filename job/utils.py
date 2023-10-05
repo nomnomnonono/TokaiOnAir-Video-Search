@@ -5,8 +5,8 @@ COLUMNS = [
     "year",
     "month",
     "day",
-    "viewCount",
-    "likeCount",
+    "viewcount",
+    "likecount",
 ]
 
 
@@ -58,8 +58,10 @@ def getVideos(youtube, video_data):
                     video_data.loc[idx, attr] = video_info["snippet"]["thumbnails"][
                         "default"
                     ]["url"]
-                elif attr in ["viewCount", "likeCount"]:
-                    video_data.loc[idx, attr] = video_info["statistics"][attr]
+                elif attr in ["viewcount", "likecount"]:
+                    video_data.loc[idx, attr] = video_info["statistics"][
+                        attr.replace("count", "Count")
+                    ]
                 elif attr in ["year", "month", "day"]:
                     video_data.loc[idx, attr] = date_dict[attr]
                 else:

@@ -50,14 +50,16 @@ $ make setup_cloudsql
 Cloud SQLのWebページからCloud Shellを開いて、以下のコマンドを実行する
 ```sql
 CREATE TABLE ${CLOUD_SQL_DATABASE_NAME}.${CLOUD_SQL_TABLE_NAME} (
-    ID VARCHAR(50) NOT NULL,
-    TITLE TEXT,
-    DESCRIPTION TEXT,
-    THUMBNAIL TEXT,
-    PUBLISHEDAT TEXT,
-    VIEWCOUNT INT,
-    LIKECOUNT INT,
-    PRIMARY KEY (ID)
+    id VARCHAR(50) NOT NULL,
+    title TEXT,
+    description TEXT,
+    thumbnail TEXT,
+    year INT,
+    month INT,
+    day INT,
+    viewcount INT,
+    likecount INT,
+    PRIMARY KEY (id)
 );
 ```
 
