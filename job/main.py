@@ -28,7 +28,7 @@ def getconn():
 def main(args):
     youtube = build("youtube", "v3", developerKey=API_KEY)
     playlist_id = getChannelPlaylistId(youtube, CHANNEL_ID)
-    video_ids = getVideoIds(youtube, playlist_id, args.is_local)
+    video_ids = getVideoIds(youtube, playlist_id)
     video_data = getVideos(youtube, pd.DataFrame(video_ids, columns=["id"]))
     video_data.where(video_data.notna(), None, inplace=True)
 

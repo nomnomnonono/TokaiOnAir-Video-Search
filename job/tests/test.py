@@ -5,7 +5,7 @@ import pytest
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from dotenv import load_dotenv
-from utils import ATTRS, getChannelPlaylistId, getVideoIds, getVideos
+from utils import COLUMNS, getChannelPlaylistId, getVideoIds, getVideos
 
 load_dotenv()
 API_KEY = os.environ.get("API_KEY")
@@ -25,11 +25,11 @@ def test_youtube():
     except HttpError:
         pytest.fail("HttpError raised")
 
-    video_ids = getVideoIds(youtube, playlist_id, is_local=False)
+    video_ids = getVideoIds(youtube, playlist_id, is_prod=False)
     assert len(video_ids) == 5
     assert isinstance(video_ids, list)
     assert isinstance(video_ids[0], str)
 
     video_data = getVideos(youtube, pd.DataFrame(video_ids, columns=["id"]))
-    assert video_data.shape == (5, len(ATTRS) + 1)
-    assert video_data.columns.tolist() == ["id"] + ATTRS
+    assert video_data.shape == (5, len(COLUMNS) + 1)
+    assert video_data.columns.tolist() == ["id"] + COLUMNS
