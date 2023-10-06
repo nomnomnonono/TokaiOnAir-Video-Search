@@ -56,7 +56,7 @@ def getVideos(youtube, video_data):
             try:
                 if attr == "thumbnail":
                     video_data.loc[idx, attr] = video_info["snippet"]["thumbnails"][
-                        "default"
+                        "high"
                     ]["url"]
                 elif attr in ["viewcount", "likecount"]:
                     video_data.loc[idx, attr] = video_info["statistics"][

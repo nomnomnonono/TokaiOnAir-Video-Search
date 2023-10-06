@@ -1,10 +1,19 @@
 <div class="video-card div-link shadow">
-  <p class="h3 title"><%= video.title %></p>
-  <%= link_to "", "https://www.youtube.com/watch?v=%s" % video.id, class: "link", target: :_blank %>
-
-  <% description = video.description.gsub("\n", "") %>
+  <div class="row title-img">
+    <div class="col-3">
+      <%= image_tag video.thumbnail, width: 200 %>
+    </div>
+    <div class="col-9 video-title">
+      <p class="h3 title"><%= video.title %></p>
+      <% description = video.description.gsub("\n", "") %>
   <p class="description">
     <%= description[..300] %> ...
   </p>
+    </div>
+  </div>
+
+  <%= link_to "", "https://www.youtube.com/watch?v=%s" % video.id, class: "link", target: :_blank %>
+
+  
   
 </div>

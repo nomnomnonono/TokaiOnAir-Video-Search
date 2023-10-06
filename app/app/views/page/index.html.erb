@@ -1,10 +1,9 @@
 <%= render "header" %>
 
 <div class="container body">
-  <p class="h1 title">Latest Posts</p>
+  <p class="h1 tab-name">Latest Posts</p>
   <br>
 
-  <div class="row">
     <% i = 0 %>
     <% @videos.each do |video| %>
       <% if i < 5 then %>
@@ -14,5 +13,4 @@
         <% break %>
       <% end %>
     <% end %>
-  </div>
 </div>
