@@ -63,12 +63,6 @@ CREATE TABLE ${CLOUD_SQL_DATABASE_NAME}.${CLOUD_SQL_TABLE_NAME} (
 );
 ```
 
-### Upload CSV to Cloud SQL
-Cloud SQLに動画データの反映
-```bash
-$ make import_csv_to_cloudsql
-```
-
 ## Build & Push Docker Image
 ```bash
 $ gcloud auth configure-docker asia-northeast1-docker.pkg.dev

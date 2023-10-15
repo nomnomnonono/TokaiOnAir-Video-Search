@@ -1,12 +1,12 @@
-import argparse
 import os
 
 import pandas as pd
 import sqlalchemy
 from apiclient.discovery import build
 from dotenv import load_dotenv
+from google.cloud import storage
 from google.cloud.sql.connector import Connector
-from utils import getChannelPlaylistId, getVideoIds, getVideos
+from utils import COLUMNS, getChannelPlaylistId, getVideoIds, getVideos
 
 load_dotenv()
 API_KEY = os.environ.get("API_KEY")
@@ -25,45 +25,51 @@ def getconn():
     return conn
 
 
-def main(args):
+def main():
     youtube = build("youtube", "v3", developerKey=API_KEY)
     playlist_id = getChannelPlaylistId(youtube, CHANNEL_ID)
     video_ids = getVideoIds(youtube, playlist_id)
     video_data = getVideos(youtube, pd.DataFrame(video_ids, columns=["id"]))
     video_data.where(video_data.notna(), None, inplace=True)
 
-    if args.is_local:
-        from google.cloud import storage
+    # Upload video data to GCS
+    client = storage.Client()
+    bucket = client.bucket(DATA_BUCKET.lstrip("gs://"))
+    blob = bucket.blob("videos.csv")
+    blob.upload_from_string(video_data.to_csv(index=False), "text/csv")
 
-        client = storage.Client()
-        bucket = client.bucket(DATA_BUCKET.lstrip("gs://"))
-        blob = bucket.blob("videos.csv")
-        blob.upload_from_string(video_data.to_csv(index=False), "text/csv")
-    else:
-        pool = sqlalchemy.create_engine(
-            "mysql+pymysql://",
-            creator=getconn,
+    # Upload video data to Cloud SQL
+    pool = sqlalchemy.create_engine(
+        "mysql+pymysql://",
+        creator=getconn,
+    )
+    with pool.connect() as db_conn:
+        insert_stmt = sqlalchemy.text(
+            f"INSERT INTO {os.environ.get('CLOUD_SQL_TABLE_NAME')} (ID, TITLE, DESCRIPTION, THUMBNAIL, YEAR, MONTH, DAY, VIEWCOUNT, LIKECOUNT) VALUES (:id, :title, :description, :thumbnail, :year, :month, :day, :viewcount, :likecount)"
         )
-        with pool.connect() as db_conn:
-            insert_stmt = sqlalchemy.text(
-                f"INSERT INTO {os.environ.get('CLOUD_SQL_TABLE_NAME')} (ID, TITLE, DESCRIPTION, THUMBNAIL, PUBLISHEDAT, VIEWCOUNT, LIKECOUNT) VALUES (:id, :title, :description, :thumbnail, :publishedAt, :viewCount, :likeCount)"
-            )
+        search_stmt = sqlalchemy.text(
+            f"SELECT COUNT(*) FROM {os.environ.get('CLOUD_SQL_TABLE_NAME')} WHERE ID = :id"
+        )
+        update_stmt = sqlalchemy.text(
+            f"UPDATE {os.environ.get('CLOUD_SQL_TABLE_NAME')} SET TITLE = :title, DESCRIPTION = :description, THUMBNAIL = :thumbnail, YEAR = :year, MONTH = :month, DAY = :day, VIEWCOUNT = :viewcount, LIKECOUNT = :likecount WHERE ID = :id"
+        )
 
-            # Insert entries into table
-            for i in range(len(video_data)):
-                try:
-                    db_conn.execute(
-                        insert_stmt, parameters=video_data.iloc[i].to_dict()
-                    )
-                    print(f"Successly inserted Video: {video_data.iloc[i]['title']}")
-                except Exception as e:
-                    print("Error", e)
+        for i in range(len(video_data)):
+            # if video is already in database, update it, else insert it
+            if (
+                db_conn.execute(
+                    search_stmt, parameters={"id": video_data["id"][i]}
+                ).fetchone()[0]
+                > 0
+            ):
+                db_conn.execute(update_stmt, parameters=video_data.iloc[i].to_dict())
+                print(f"Updated video#{video_data['id'][i]}")
+            else:
+                db_conn.execute(insert_stmt, parameters=video_data.iloc[i].to_dict())
+                print(f"Inserted video#{video_data['id'][i]}")
 
-            db_conn.commit()
+        db_conn.commit()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--is_local", action="store_true")
-    args = parser.parse_args()
-    main(args)
+    main()
