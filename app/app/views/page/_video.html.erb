@@ -1,14 +1,14 @@
 <div class="video-card div-link shadow">
   <div class="row title-img">
     <div class="col-3">
-      <%= image_tag video.thumbnail, width: 200 %>
+      <%= image_tag video.thumbnail, class: "img-fluid" %>
     </div>
     <div class="col-9 video-title">
       <p class="h3 title"><%= video.title %></p>
       <% description = video.description.gsub("\n", "") %>
-  <p class="description">
-    <%= description[..300] %> ...
-  </p>
+      <p class="description">
+        <%= description[..300] %> ...
+      </p>
     </div>
   </div>
 
