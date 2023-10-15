@@ -4,7 +4,7 @@ one:
   id: MyString
   title: MyText
   description: MyText
-  thumbnail: MyText
+  thumbnail: https://i.ytimg.com/vi/EndtUjiwRms/hqdefault.jpg
   year: 1
   month: 1
   day: 1
@@ -15,7 +15,7 @@ two:
   id: MyString2
   title: MyText
   description: MyText
-  thumbnail: MyText
+  thumbnail: https://i.ytimg.com/vi/EndtUjiwRms/hqdefault.jpg
   year: 1
   month: 1
   day: 1
