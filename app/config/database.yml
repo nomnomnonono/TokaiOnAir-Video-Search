@@ -21,5 +21,11 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV['CLOUD_SQL_DATABASE_NAME'] %>
+  username: <%= ENV['CLOUD_SQL_USER_NAME'] %>
+  password: <%= ENV['CLOUD_SQL_PASSWORD'] %>
+  host: 127.0.0.1
+  port: 3306

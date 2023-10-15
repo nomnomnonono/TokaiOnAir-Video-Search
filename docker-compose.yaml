@@ -1,7 +1,0 @@
-version: '3.10'
-services:
-  job:
-    build:
-      context: ./job
-      dockerfile: Dockerfile
-    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/job:latest
