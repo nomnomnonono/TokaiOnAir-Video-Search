@@ -22,10 +22,8 @@ test:
 
 production:
   adapter: mysql2
-  encoding: utf8mb4
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV['CLOUD_SQL_DATABASE_NAME'] %>
-  username: <%= ENV['CLOUD_SQL_USER_NAME'] %>
-  password: <%= ENV['CLOUD_SQL_PASSWORD'] %>
-  host: 127.0.0.1
-  port: 3306
+  encoding: utf8
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  socket: <%= "/cloudsql/#{ENV['INSTANCE_CONNECTION_NAME']}" %>
+  database: <%= ENV["DB_NAME"] %>
