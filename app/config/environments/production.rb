@@ -92,4 +92,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.hosts << "tokaionair-video-search-4dblcmswqq-an.a.run.app"
+
+  config.require_master_key = true
 end
