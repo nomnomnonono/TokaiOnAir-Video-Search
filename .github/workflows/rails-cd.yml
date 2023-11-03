@@ -52,3 +52,4 @@ jobs:
             DB_NAME=${{ secrets.CLOUD_SQL_DATABASE_NAME }}
             RAILS_SERVE_STATIC_FILES=true
             RAILS_MASTER_KEY=${{ secrets.MASTER_KEY }}
+            SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
