@@ -50,5 +50,5 @@ jobs:
             DB_USERNAME=${{ secrets.CLOUD_SQL_USER_NAME }}
             DB_PASSWORD=${{ secrets.CLOUD_SQL_PASSWORD }}
             DB_NAME=${{ secrets.CLOUD_SQL_DATABASE_NAME }}
-            RAILS_SERVE_STATIC_FILES=true
             RAILS_MASTER_KEY=${{ secrets.MASTER_KEY }}
+            RAILS_SERVE_STATIC_FILES=true
