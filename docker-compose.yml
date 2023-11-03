@@ -9,8 +9,8 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
+      args:
+        - RAILS_MASTER_KEY=test
     image: ${LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/app:latest
-    args:
-      - RAILS_MASTER_KEY=test
     ports:
       - 8080:8080
