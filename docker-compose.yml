@@ -1,0 +1,14 @@
+version: '3.10'
+services:
+  job:
+    build:
+      context: ./job
+      dockerfile: Dockerfile
+    image: ${LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/job:latest
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: ${LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/app:latest
+    ports:
+      - 8080:8080

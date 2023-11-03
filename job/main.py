@@ -6,7 +6,7 @@ from apiclient.discovery import build
 from dotenv import load_dotenv
 from google.cloud import storage
 from google.cloud.sql.connector import Connector
-from utils import COLUMNS, getChannelPlaylistId, getVideoIds, getVideos
+from utils import getChannelPlaylistId, getVideoIds, getVideos
 
 load_dotenv()
 API_KEY = os.environ.get("API_KEY")

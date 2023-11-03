@@ -15,6 +15,7 @@ $ make install
 ```bash
 $ vi .env
 $ cp .env job/
+$ cp .env app/
 ```
 
 - 以下の情報を記入＋環境変数としてexportしておく
