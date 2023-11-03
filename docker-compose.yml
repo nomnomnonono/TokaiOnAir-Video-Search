@@ -4,11 +4,11 @@ services:
     build:
       context: ./job
       dockerfile: Dockerfile
-    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/job:latest
+    image: ${LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/job:latest
   app:
     build:
       context: ./app
       dockerfile: Dockerfile
-    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/app:latest
+    image: ${LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/app:latest
     ports:
       - 8080:8080
