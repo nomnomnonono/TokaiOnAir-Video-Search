@@ -8,7 +8,7 @@ env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   LOCATION: ${{ secrets.LOCATION }}
   AR_REPOSITORY_NAME: ${{ secrets.AR_REPOSITORY_NAME }}
-  IMAGE: ${{ secrets.LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.AR_REPOSITORY_NAME }}/app:${{ github.sha }}
+  IMAGE: ${{ secrets.LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.AR_REPOSITORY_NAME }}/app:latest
   CLOUD_SQL_INSTANCE_NAME: ${{ secrets.GCP_PROJECT_ID }}:${{ secrets.LOCATION }}:${{ secrets.CLOUD_SQL_INSTANCE_NAME }}
 
 jobs:
